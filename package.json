@@ -7,6 +7,7 @@
     "build:docker": "vite build --outDir=./docker/dist/"
   },
   "dependencies": {
+    "@braks/vue-flow": "^0.4.41",
     "@element-plus/icons-vue": "^0.2.4",
     "@smallwei/avue": "3.2.6",
     "animate.css": "^4.1.1",
