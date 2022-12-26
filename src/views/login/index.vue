@@ -17,23 +17,24 @@
 </template>
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
-import {getCode,login} from '@/plugins/api/api-login-controller.js'
-const form = ref({userAccount:'',password:'',captchCode:'',reCode:'',captchaId:''})
-onMounted(()=>{
+import {getCode, login} from '@/plugins/api/api-login-controller.js'
+
+const form = ref({userAccount: '', password: '', captchCode: '', reCode: '', captchaId: ''})
+onMounted(() => {
   getCodeURL();
 })
-const getCodeURL=()=>{
-  getCode().then( (res?:any) =>{
+const getCodeURL = () => {
+  getCode().then((res?: any) => {
     console.log(res);
     setCode(res.data.data);
   })
 }
-const setCode=(data?:any)=>{
-  form.value.captchaId=data.captchaId;
-  form.value.reCode=data.image
+const setCode = (data?: any) => {
+  form.value.captchaId = data.captchaId;
+  form.value.reCode = data.image
 }
-const doLogin = ()=>{
-  login(form.value).then((res?:any)=>{
+const doLogin = () => {
+  login(form.value).then((res?: any) => {
     console.log(res)
   })
 }
