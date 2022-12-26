@@ -4,3 +4,4 @@
    css框架 tailwind
    state插件 pinia
    打包工具 vite
+   hooks工具 vue-hooks-plus
