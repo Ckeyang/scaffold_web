@@ -5,7 +5,7 @@
       <el-popover
           placement="bottom"
           :title="userInfo?.name"
-          :width="200"
+          :width="150"
           trigger="click"
       >
         <template #reference>
