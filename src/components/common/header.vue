@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-gray-200 px-8 py-4 flex items-center justify-between">
+  <section class="bg-gray-100 px-8 py-4 flex items-center justify-between">
     <section class="text-xl">智菲科技</section>
     <section>
       <el-popover
@@ -12,7 +12,7 @@
           <el-avatar :icon="UserFilled"/>
         </template>
         <template #default>
-          <section class="py-2" @click="doLogout">
+          <section class="py-2 cursor-pointer" @click="doLogout">
             登出
           </section>
         </template>
@@ -26,6 +26,9 @@ import {useUserState} from "@/stores/user";
 import {ref} from "vue";
 import type {User} from "@/modules/user";
 import {logout} from "@/plugins/api/api-login-controller";
+import {useRouter} from "vue-router";
+
+const router = useRouter()
 
 const userState = useUserState();
 const userInfo = ref<User>();
@@ -37,6 +40,7 @@ const doLogout = () => {
       let user: User = {};
       userState.setToken('')
       userState.setUserInfo(user)
+      router.replace('/')
     }
   })
 }

@@ -1,5 +1,5 @@
 <template>
-  <el-aside>
+  <el-aside width="200px">
     <el-menu
         default-active="1"
         class="h-full"

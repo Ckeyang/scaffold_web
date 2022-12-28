@@ -11,7 +11,7 @@ const http = axios.create(config);
 http.interceptors.request.use((axiosConfig: axios.AxiosRequestConfig<any>) => {
     console.log(axiosConfig)
     if (localStorage.getItem('token')) {
-        axiosConfig.headers['token'] = localStorage.getItem('token');
+        axiosConfig.headers['Authorization'] = localStorage.getItem('token');
     }
     return axiosConfig
 });
