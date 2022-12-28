@@ -16,6 +16,7 @@
     "ckeyang-test-swagger": "^1.0.8",
     "element-plus": "^2.2.27",
     "pinia": "^2.0.28",
+    "pinia-plugin-persist": "^1.0.0",
     "vue": "^3.2.45",
     "vue-hooks-plus": "^1.4.6",
     "vue-router": "^4.1.6"

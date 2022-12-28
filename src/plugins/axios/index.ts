@@ -20,8 +20,9 @@ http.interceptors.response.use((response: axios.AxiosResponse<any, any>) => {
     console.log(response)
     if (response.data.code !== 200) {
         ElNotification({
+            type: 'error',
             title: '错误信息',
-            message: response.data.message
+            message: response.data.msg
         })
     }
     return response

@@ -1,12 +1,12 @@
 <template>
   <section class="w-full h-screen flex justify-center items-center bg-amber-200">
-    <section class="border rounded w-1/3  min-w-[400px] px-4 py-8 bg-white">
+    <section class="border rounded w-1/3  min-w-[400px] max-w-[500px] px-4 py-8 bg-white">
       <el-input placeholder="请输入账号" size="large" v-model="form.userAccount"></el-input>
       <el-input placeholder="请输入密码" size="large" v-model="form.password" type="password" class="mt-8"></el-input>
       <el-input placeholder="请输入验证码" size="large" v-model="form.captchCode" class="mt-8">
-        <template #append class="relative">
+        <template #append class="relative overflow-hidden">
           验证码
-          <img class="w-full absolute left-0 cursor-pointer" :src="form.reCode" @click="getCodeURL"/>
+          <img class="w-full h-full absolute left-0 cursor-pointer" :src="form.reCode" @click="getCodeURL"/>
         </template>
       </el-input>
       <section class="mt-8 flex justify-end">
@@ -44,6 +44,7 @@ const doLogin = () => {
   login(form.value).then((res?: any) => {
     if (res.data.code === 200) {
       userState.setToken(res.data.data.token)
+      userState.setUserInfo(res.data.data)
       router.push('/admin');
     }
   })
