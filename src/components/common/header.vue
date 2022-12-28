@@ -12,7 +12,9 @@
           <el-avatar :icon="UserFilled"/>
         </template>
         <template #default>
-          test
+          <section class="py-2" @click="doLogout">
+            登出
+          </section>
         </template>
       </el-popover>
     </section>
@@ -23,9 +25,19 @@ import {UserFilled} from '@element-plus/icons-vue'
 import {useUserState} from "@/stores/user";
 import {ref} from "vue";
 import type {User} from "@/modules/user";
+import {logout} from "@/plugins/api/api-login-controller";
 
 const userState = useUserState();
-const userInfo = ref<User>()
+const userInfo = ref<User>();
 userInfo.value = userState.getUserInfo();
-console.log(userInfo.value)
+
+const doLogout = () => {
+  logout().then((res: any) => {
+    if (res.data.code === 200) {
+      let user: User = {};
+      userState.setToken('')
+      userState.setUserInfo(user)
+    }
+  })
+}
 </script>

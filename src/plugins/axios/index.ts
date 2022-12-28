@@ -1,17 +1,17 @@
 import axios from 'axios';
 import config from "@/plugins/axios/config";
 import {ElNotification} from "element-plus";
-import {useUserState} from "@/stores/user";
+// import {useUserState} from "@/stores/user";
 
-const userState = useUserState();
+// const userState = useUserState();
 
 const http = axios.create(config);
 // 请求拦截器 ，主要是用来做header token设置
 // @ts-ignore
 http.interceptors.request.use((axiosConfig: axios.AxiosRequestConfig<any>) => {
     console.log(axiosConfig)
-    if (userState.token) {
-        axiosConfig.headers['token'] = userState.token;
+    if (localStorage.getItem('token')) {
+        axiosConfig.headers['token'] = localStorage.getItem('token');
     }
     return axiosConfig
 });

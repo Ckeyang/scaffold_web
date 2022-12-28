@@ -8,6 +8,7 @@ export const useUserState = defineStore('user',
         const userInfo = ref<User>();
         const setToken = (val: string) => {
             token.value = val;
+            localStorage.setItem('token', val);
         }
         const setUserInfo = (val: User) => {
             userInfo.value = val;
