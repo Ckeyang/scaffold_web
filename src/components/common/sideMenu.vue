@@ -3,8 +3,7 @@
     <el-menu
         default-active="home"
         class="h-full"
-        @open="handleOpen"
-        @close="handleClose"
+        @select="handleSelect"
     >
       <el-menu-item index="home">
         <el-icon>
@@ -12,7 +11,7 @@
         </el-icon>
         <span>HOME</span>
       </el-menu-item>
-      <el-menu-item index="home">
+      <el-menu-item index="home2">
         <el-icon>
           <document/>
         </el-icon>
@@ -33,10 +32,8 @@ import {useRouter} from "vue-router";
 
 const router = useRouter();
 
-const handleOpen = (key: string, keyPath: string[]) => {
-  router.push(`/${key}`)
-}
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
+const handleSelect = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath.join('/'))
+  router.push(`/${keyPath.join('/')}`)
 }
 </script>

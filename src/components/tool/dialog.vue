@@ -1,5 +1,5 @@
 <template>
-  <el-dialog class="w-[500px]" v-model="visible" :title="props.title" :close-on-click-modal="false">
+  <el-dialog width="550px" v-model="visible" :title="props.title" :close-on-click-modal="false">
     <slot name="content">
       <code>
         请使用 template #content 写入内容
