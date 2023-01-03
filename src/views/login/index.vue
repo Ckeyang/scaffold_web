@@ -20,6 +20,7 @@ import {onMounted, ref} from "vue";
 import {getCode, login} from '@/plugins/api/api-login-controller.js'
 import {useRouter} from "vue-router";
 import {useUserState} from "@/stores/user";
+import type {Response} from '@/modules/response'
 
 const userState = useUserState();
 const router = useRouter();
@@ -28,9 +29,8 @@ onMounted(() => {
   getCodeURL();
 })
 const getCodeURL = () => {
-  getCode().then((res?: any) => {
-    console.log(res);
-    setCode(res.data.data);
+  getCode().then((res?: Response) => {
+    setCode(res?.data?.data);
   })
 }
 const setCode = (data?: any) => {
@@ -41,10 +41,10 @@ const setCode = (data?: any) => {
  * 登录
  */
 const doLogin = () => {
-  login(form.value).then((res?: any) => {
-    if (res.data.code === 200) {
-      userState.setToken(res.data.data.token)
-      userState.setUserInfo(res.data.data)
+  login(form.value).then((res?: Response) => {
+    if (res?.data?.code === 200) {
+      userState.setToken(res?.data?.data?.token)
+      userState.setUserInfo(res?.data?.data)
       router.push('/admin');
     }
   })

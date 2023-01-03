@@ -71,16 +71,18 @@ import {onMounted, ref} from "vue";
 import MyDialog from '@/components/tool/dialog.vue';
 import type {Params} from "@/modules/list";
 import type {Dictionary} from "@/modules/dictionary";
+import {Form, getFormItem} from "@/modules/form";
+import type {Response} from "@/modules/response";
 
-const formName = {
-  code: {name: '字典编码', tool: 'input'},
-  id: {name: 'id', tool: 'input', noEdit: true},
-  identifying: {name: '字典标识', tool: 'input'},
-  isEdit: {name: '是否允许编辑', tool: 'select'},
-  name: {name: '字典名称', tool: 'input'},
-  parentId: {name: '父id', tool: 'input', noEdit: true},
-  remark: {name: '字典备注', tool: 'textarea'},
-  sort: {name: '排序', tool: 'input'}
+const formName: Form = {
+  code: getFormItem({name: '字典编码', tool: 'input'}),
+  id: getFormItem({name: 'id', tool: 'input', noEdit: true}),
+  identifying: getFormItem({name: '字典标识', tool: 'input'}),
+  isEdit: getFormItem({name: '是否允许编辑', tool: 'select'}),
+  name: getFormItem({name: '字典名称', tool: 'input'}),
+  parentId: getFormItem({name: '父id', tool: 'input', noEdit: true}),
+  remark: getFormItem({name: '字典备注', tool: 'textarea'}),
+  sort: getFormItem({name: '排序', tool: 'input'})
 }
 const form = ref<Dictionary>();
 const params = ref<Params>({
@@ -157,8 +159,8 @@ const getDataList = (isFresh?: boolean) => {
   if (isFresh) {
     resetParams();
   }
-  getDictList(params.value).then((res: any) => {
-    if (res.data.code === 200) {
+  getDictList(params.value).then((res: Response) => {
+    if (res?.data?.code === 200) {
       console.log(res.data);
       dataList.value = res.data.data.list;
       total.value = res.data.data.total;

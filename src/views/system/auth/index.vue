@@ -44,7 +44,7 @@
       </el-tooltip>
     </section>
     <section class="py-4 flex-1 overflow-auto">
-      <el-tree :data="dataList" :props="defaultProps" @node-click="handleNodeClick">
+      <el-tree :data="dataList" :props="defaultProps">
         <template #default="{ node, data }">
           <section class="flex items-center">
             <el-icon size="20" v-if="data.type==='GROUP'">
@@ -103,8 +103,10 @@
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
 import {Tree, typeName} from "@/modules/auth";
-import {addAuth, getAuthTree} from '@/plugins/api/api-auth-controller.js'
+import {addAuth, delAuthByIds, getAuthTree, updateAuth} from '@/plugins/api/api-auth-controller.js'
 import MyDialog from '@/components/tool/dialog.vue';
+import {Form, getFormItem} from "@/modules/form";
+import type {Response} from '@/modules/response'
 
 const dialog = ref({
   title: '新增',
@@ -114,23 +116,23 @@ const dialog = ref({
 const params = ref({
   clientType: 'WEB'
 })
-const formName = {
-  icon: {name: '图标', tool: 'input'},
-  id: {name: 'id', tool: 'input', noEdit: true},
-  identification: {name: '标识', tool: 'input'},
-  isEdit: {name: '是否允许编辑', tool: 'select'},
-  name: {name: '名称', tool: 'input'},
-  parentId: {name: '父id', tool: 'input', noEdit: true},
-  requestMethod: {
+const formName: Form = {
+  icon: getFormItem({name: '图标', tool: 'input'}),
+  id: getFormItem({name: 'id', tool: 'input', noEdit: true}),
+  identification: getFormItem({name: '标识', tool: 'input'}),
+  isEdit: getFormItem({name: '是否允许编辑', tool: 'select'}),
+  name: getFormItem({name: '名称', tool: 'input'}),
+  parentId: getFormItem({name: '父id', tool: 'input', noEdit: true}),
+  requestMethod: getFormItem({
     name: '请求方式',
     tool: 'select',
     params: [{value: 'GET', label: 'GET'}, {value: 'POST', label: 'POST'}, {
       value: 'UPDATE',
       label: 'UPDATE'
     }, {value: 'DELETE', label: 'DELETE'}]
-  },
-  sort: {name: '排序', tool: 'input'},
-  url: {name: '接口', tool: 'input'}
+  }),
+  sort: getFormItem({name: '排序', tool: 'input'}),
+  url: getFormItem({name: '接口', tool: 'input'})
 }
 const form = ref({
   "forSystem": "WEB",
@@ -164,11 +166,14 @@ const add = (type: string, item: any) => {
   dialog.value.title = `新增${types[type as keyof typeName]}`
   dialog.value.visible = true;
 }
-const remove = (node: any, item: any) => {
+const remove = (node: any, data: any) => {
+  doDelete([data.id]);
 }
 const save = () => {
   if (dialog.value.action === 'add') {
     doAddAuth();
+  } else if (dialog.value.action === 'update') {
+    doUpdateAuth();
   }
   dialog.value.visible = false;
 
@@ -177,20 +182,29 @@ const cancel = () => {
   dialog.value.visible = false;
 }
 const doAddAuth = async () => {
-  let res = await addAuth(form.value).then();
-  if (res.data.code === 200) {
+  let res: Response = await addAuth(form.value).then();
+  if (res?.data?.code === 200) {
     getDataList();
   }
 }
-const doUpdateAuth = () => {
-
+const doUpdateAuth = async () => {
+  let res: Response = await updateAuth(form.value).then();
+  if (res?.data?.code === 200) {
+    getDataList();
+  }
+}
+const doDelete = async (ids: number[]) => {
+  let res: Response = await delAuthByIds(ids).then();
+  if (res?.data?.code === 200) {
+    getDataList();
+  }
 }
 const handleNodeClick = (data: Tree) => {
   console.log(data);
 }
 const getDataList = () => {
-  getAuthTree(params.value).then((res: any) => {
-    dataList.value = res.data.child;
+  getAuthTree(params.value).then((res?: any) => {
+    dataList.value = res?.data?.child;
   });
 }
 onMounted(() => {
