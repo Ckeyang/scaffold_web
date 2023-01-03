@@ -28,7 +28,7 @@
         <el-table-column prop="createUser" label="创建人" show-overflow-tooltip></el-table-column>
         <el-table-column prop="updateTime" label="更新时间" show-overflow-tooltip></el-table-column>
         <el-table-column prop="updateUser" label="更新人" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="action" label="操作" width="140px" align="center">
+        <el-table-column fixed="right" prop="action" label="操作" width="140px" align="center">
           <template #default="scope">
             <section class="flex justify-end">
               <el-button v-show="scope.row.isEdit==='YES'" size="small" type="warning" @click="update(scope.row)">编辑

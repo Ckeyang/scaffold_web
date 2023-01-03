@@ -23,9 +23,13 @@ const router = createRouter({
                     name: 'home',
                     component: () => import('@/views/home/index.vue')
                 }, {
+                    path: '/auth',
+                    name: 'auth',
+                    component: () => import('@/views/system/auth/index.vue')
+                }, {
                     path: '/dictionary',
                     name: 'dictionary',
-                    component: () => import('@/views/dictionary/index.vue')
+                    component: () => import('@/views/system/dictionary/index.vue')
                 }
             ]
         },
