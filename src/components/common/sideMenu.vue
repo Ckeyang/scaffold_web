@@ -8,27 +8,32 @@
     >
       <el-menu-item index="/home">
         <el-icon>
-          <icon-menu/>
+          <HomeFilled/>
         </el-icon>
         <span>HOME</span>
       </el-menu-item>
       <el-menu-item index="/home2">
         <el-icon>
-          <document/>
+          <Menu/>
         </el-icon>
         <span>菜单1</span>
       </el-menu-item>
       <el-sub-menu>
-        <template #title>系统设置</template>
+        <template #title>
+          <el-icon>
+            <Setting/>
+          </el-icon>
+          系统设置
+        </template>
         <el-menu-item index="/dictionary">
           <el-icon>
-            <setting/>
+            <DataBoard/>
           </el-icon>
           <span>数据字典</span>
         </el-menu-item>
         <el-menu-item index="/auth">
           <el-icon>
-            <setting/>
+            <Finished/>
           </el-icon>
           <span>资源权限</span>
         </el-menu-item>
