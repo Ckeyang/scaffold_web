@@ -170,10 +170,13 @@ const remove = (node: any, data: any) => {
   doDelete([data.id]);
 }
 const save = () => {
-  if (dialog.value.action === 'add') {
-    doAddAuth();
-  } else if (dialog.value.action === 'update') {
-    doUpdateAuth();
+  switch (dialog.value.action) {
+    case 'add':
+      doAddAuth();
+      break;
+    case 'update':
+      doUpdateAuth();
+      break;
   }
   dialog.value.visible = false;
 
