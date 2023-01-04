@@ -133,7 +133,9 @@ const dialog = ref({
   action: 'add',
   addVisible: false
 })
-
+/**
+ * 创建一个新对象
+ */
 const createNewForm = () => {
   form.value = {
     account: "",
@@ -147,6 +149,9 @@ const createNewForm = () => {
     remark: ""
   };
 }
+/**
+ * 导入用户
+ */
 const doImportUser = async () => {
   let file = await fileInput();
   if (file instanceof Blob) {
@@ -158,38 +163,62 @@ const doImportUser = async () => {
     }
   }
 }
+/**
+ * 导出模版
+ */
 const doExportTemplate = async () => {
   let res = await exportTemplete();
   let url = await blobToUrl(res.data)
   window.open(String(url));
 }
+/**
+ * 导出用户
+ * @param item
+ */
 const doExportUser = async (item: UserForm) => {
   let res = await exportUser(item);
   let url = await blobToUrl(res.data)
   window.open(String(url));
 }
+/**
+ * 打开新增框
+ */
 const add = () => {
   dialog.value.addVisible = true;
   dialog.value.action = 'add';
   dialog.value.title = '新增'
   createNewForm();
 }
+/**
+ * 打开修改框
+ * @param item
+ */
 const update = (item: UserForm) => {
   dialog.value.addVisible = true;
   dialog.value.action = 'update';
   dialog.value.title = '修改';
   form.value = item;
 }
+/**
+ * 执行删除
+ * @param item
+ */
 const deleteItem = async (item: UserForm) => {
   let res = await delUsers([item.id])
   if (res.data.code === 200) {
     getDataList(true)
   }
 }
+/**
+ * 弹出框 取消
+ */
 const cancel = () => {
   dialog.value.addVisible = false;
   getDataList()
 }
+/**
+ * 弹出框保存
+ */
 const save = () => {
   switch (dialog.value.action) {
     case 'add':
@@ -200,12 +229,18 @@ const save = () => {
       break;
   }
 }
+/**
+ * 执行增加
+ */
 const doAdd = async () => {
   let res = await userSave(form.value);
   if (res.data.code === 200) {
     cancel();
   }
 }
+/**
+ * 执行修改
+ */
 const doUpdate = async () => {
   let res = await userUpdate(form.value)
   if (res.data.code === 200) {
@@ -228,7 +263,7 @@ const getDataList = (isFresh?: boolean) => {
   })
 }
 /**
- * 充值
+ * 重制
  */
 const resetParams = () => {
   params.value = {
@@ -238,8 +273,7 @@ const resetParams = () => {
     phone: '',
     remark: '',
     pageSize: 15,
-    pageNum: 1,
-    parentId: 0
+    pageNum: 1
   }
 }
 /**
