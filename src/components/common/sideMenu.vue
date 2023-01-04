@@ -6,17 +6,17 @@
         unique-opened
         @select="handleSelect"
     >
-      <el-menu-item index="/home">
+      <el-menu-item index="/admin/home">
         <el-icon>
           <HomeFilled/>
         </el-icon>
         <span>HOME</span>
       </el-menu-item>
-      <el-menu-item index="/home2">
+      <el-menu-item index="/admin/home2">
         <el-icon>
           <Menu/>
         </el-icon>
-        <span>菜单1</span>
+        <span>404包间</span>
       </el-menu-item>
       <el-sub-menu>
         <template #title>
@@ -25,25 +25,25 @@
           </el-icon>
           系统设置
         </template>
-        <el-menu-item index="/dictionary">
+        <el-menu-item index="/admin/dictionary">
           <el-icon>
             <DataBoard/>
           </el-icon>
           <span>数据字典</span>
         </el-menu-item>
-        <el-menu-item index="/auth">
+        <el-menu-item index="/admin/auth">
           <el-icon>
             <Finished/>
           </el-icon>
           <span>资源权限</span>
         </el-menu-item>
-        <el-menu-item index="/user">
+        <el-menu-item index="/admin/user">
           <el-icon>
             <User/>
           </el-icon>
           <span>用户管理</span>
         </el-menu-item>
-        <el-menu-item index="/role">
+        <el-menu-item index="/admin/role">
           <el-icon>
             <Pointer/>
           </el-icon>

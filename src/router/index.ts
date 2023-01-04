@@ -19,23 +19,23 @@ const router = createRouter({
                     name: 'home',
                     component: () => import('@/views/home/index.vue')
                 }, {
-                    path: '/home',
+                    path: 'home',
                     name: 'home',
                     component: () => import('@/views/home/index.vue')
                 }, {
-                    path: '/auth',
+                    path: 'auth',
                     name: 'auth',
                     component: () => import('@/views/system/auth/index.vue')
                 }, {
-                    path: '/dictionary',
+                    path: 'dictionary',
                     name: 'dictionary',
                     component: () => import('@/views/system/dictionary/index.vue')
                 }, {
-                    path: '/user',
+                    path: 'user',
                     name: 'user',
                     component: () => import('@/views/system/user/index.vue')
                 }, {
-                    path: '/role',
+                    path: 'role',
                     name: 'role',
                     component: () => import('@/views/system/user/role.vue')
                 }
