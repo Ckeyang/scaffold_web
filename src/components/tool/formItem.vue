@@ -4,7 +4,8 @@
     <el-input v-if="props.formName[v]?.tool==='input'" v-model="props.form[v]"/>
     <el-input v-if="props.formName[v]?.tool==='password'" type="password" v-model="props.form[v]"/>
     <el-input v-if="props.formName[v]?.tool==='textarea'" v-model="props.form[v]" type="textarea"/>
-    <el-select v-if="props.formName[v]?.tool==='select'" v-model="props.form[v]">
+    <el-select :placeholder="`请选择${props.formName[v].name}`" v-if="props.formName[v]?.tool==='select'"
+               v-model="props.form[v]">
       <el-option v-for="(item,index) in props.formName[v]?.params" :key="index" :label="item.label"
                  :value="item.value"></el-option>
     </el-select>

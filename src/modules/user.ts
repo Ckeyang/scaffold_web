@@ -39,6 +39,7 @@ export interface UserForm {
     "address": string,
     "age": number,
     "id"?: number,
+    "roleId"?: string[],
     "name": string,
     "password": string,
     "phone": string,

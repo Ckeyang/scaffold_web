@@ -7,7 +7,7 @@
         <el-button type="primary" @click="doImportUser">导入用户</el-button>
       </section>
     </section>
-    <section class="flex justify-between mt-4">
+    <section class="xl:flex xl:justify-between mt-4">
       <section class="text-lg grid gap-4 grid-cols-5">
         <el-input v-model="params.name" placeholder="请输入姓名"/>
         <el-input v-model="params.account" placeholder="请输入账号"/>
@@ -15,7 +15,7 @@
         <el-input v-model="params.phone" placeholder="请输入电话"/>
         <el-input v-model="params.remark" placeholder="请输入备注"/>
       </section>
-      <section class="toolbox">
+      <section class="xl:mt-0 md:mt-4">
         <el-button type="default" @click="add">新增</el-button>
         <el-button type="primary" @click="getDataList()">查询</el-button>
       </section>
@@ -40,9 +40,10 @@
             {{ scope.row.status === 'OPEN' ? '启用' : '禁用' }}
           </template>
         </el-table-column>
-        <el-table-column fixed="right" prop="action" label="操作" width="220px" align="center">
+        <el-table-column fixed="right" prop="action" label="操作" width="300px" align="center">
           <template #default="scope">
             <section class="flex justify-end">
+              <el-button type="default" size="small" @click="addRole(scope.row)">修改角色</el-button>
               <el-button type="primary" size="small" @click="doExportUser(scope.row)">导出用户</el-button>
               <el-button size="small" type="warning" @click="update(scope.row)">编辑
               </el-button>
@@ -76,9 +77,23 @@
       </el-form>
     </template>
   </my-dialog>
+  <my-dialog :visible="dialog.roleVisible" :title="dialog.title" @cancel="cancel" @save="save">
+    <template #content>
+      <section>
+        操作用户<span class="ml-4">{{ form.name }}</span>
+      </section>
+      <section class="mt-8">
+        选择角色
+        <el-select placeholder="请选择角色" class="ml-4" v-model="form.roleId" multiple>
+          <el-option v-for="(item,index) in roles" :key="index" :label="item.roleName" :value="item.id"></el-option>
+        </el-select>
+      </section>
+    </template>
+  </my-dialog>
 </template>
 <script lang="ts" setup>
 import {
+  addUserRoles,
   delUsers,
   exportTemplete,
   exportUser,
@@ -86,7 +101,8 @@ import {
   queryUser,
   userSave,
   userUpdate
-} from '@/plugins/api/api-user-controller.js'
+} from '@/plugins/api/api-user-controller.js';
+import {getRoles} from "@/plugins/api/api-role-controller";
 import {onMounted, ref} from "vue";
 import MyDialog from '@/components/tool/dialog.vue';
 import type {UserParams} from "@/modules/list";
@@ -131,8 +147,19 @@ const dataList = ref([]);
 const dialog = ref({
   title: '新增',
   action: 'add',
+  roleVisible: false,
   addVisible: false
 })
+const roles = ref();
+/**
+ * 获取roles
+ */
+const getAllRoles = async () => {
+  let res = await getRoles();
+  if (res.data.code === 200) {
+    roles.value = res.data.data
+  }
+}
 /**
  * 创建一个新对象
  */
@@ -162,6 +189,16 @@ const doImportUser = async () => {
       getDataList(true)
     }
   }
+}
+/**
+ * 添加角色
+ */
+const addRole = (item: UserForm) => {
+  getAllRoles();
+  form.value = item;
+  dialog.value.roleVisible = true;
+  dialog.value.action = 'updateRole';
+  dialog.value.title = '编辑角色'
 }
 /**
  * 导出模版
@@ -214,6 +251,7 @@ const deleteItem = async (item: UserForm) => {
  */
 const cancel = () => {
   dialog.value.addVisible = false;
+  dialog.value.roleVisible = false;
   getDataList()
 }
 /**
@@ -227,6 +265,18 @@ const save = () => {
     case 'update':
       doUpdate();
       break;
+    case 'updateRole':
+      doUpdateRole();
+  }
+}
+const doUpdateRole = async () => {
+  let role = {
+    userId: form.value?.id,
+    roleIds: form.value?.roleId
+  }
+  let res = await addUserRoles(role)
+  if (res.data.code === 200) {
+    cancel();
   }
 }
 /**

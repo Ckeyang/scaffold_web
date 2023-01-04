@@ -56,7 +56,8 @@
 <script lang="ts" setup>
 
 import {useRoute, useRouter} from "vue-router";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {getUserMenus} from "@/plugins/api/api-user-controller";
 
 const router = useRouter();
 const route = useRoute();
@@ -65,4 +66,11 @@ const activePage = ref(route.path)
 const handleSelect = (key: string, keyPath: string[]) => {
   router.push(`${key}`)
 }
+const getAuth = async () => {
+  let res = await getUserMenus({forSystem: 'WEB'})
+  console.log(res);
+}
+onMounted(() => {
+  getAuth();
+})
 </script>
