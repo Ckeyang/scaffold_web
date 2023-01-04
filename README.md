@@ -1,7 +1,7 @@
-# 智菲前端框架项目
+# 前端框架项目
 
-   ui框架 element-plus 
-   css框架 tailwind
-   state插件 pinia
-   打包工具 vite
-   hooks工具 vue-hooks-plus
+      ui 框架 element-plus
+      css 框架 tailwind
+      state 插件 pinia
+      打包工具 vite
+      hooks 工具 vue-hooks-plus
