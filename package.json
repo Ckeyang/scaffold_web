@@ -2,6 +2,15 @@
   "name": "vue-project",
   "version": "0.0.0",
   "private": true,
+  "author": {
+    "name": "ckeyang",
+    "email": "463650967@qq.com",
+    "url": "https://github.com/Ckeyang"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://gitlab.chengdu-zhifei.com:9999/zf-fw/zf-cloud-web"
+  },
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
