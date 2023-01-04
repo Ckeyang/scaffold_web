@@ -72,12 +72,14 @@
                   @click="() => add('RESOURCE_INNER_LINK',data)">
                 <span class="text-yellow-500">新增按钮</span>
               </el-button>
-              <el-button
-                  type="text"
-                  size="mini"
-                  @click="() => remove(node, data)">
-                <span class="text-red-500">删除</span>
-              </el-button>
+              <el-popconfirm
+                  confirm-button-text="确定"
+                  cancel-button-text="取消"
+                  title="确认删除？" @confirm="remove(node, data)">
+                <template #reference>
+                  <el-button size="small" type="text"><span class="text-red-500">删除</span></el-button>
+                </template>
+              </el-popconfirm>
             </section>
           </section>
         </template>

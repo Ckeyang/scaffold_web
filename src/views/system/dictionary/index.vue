@@ -33,7 +33,14 @@
             <section class="flex justify-end">
               <el-button v-show="scope.row.isEdit==='YES'" size="small" type="warning" @click="update(scope.row)">编辑
               </el-button>
-              <el-button size="small" type="danger" @click="deleteItem(scope.row)">删除</el-button>
+              <el-popconfirm
+                  confirm-button-text="确定"
+                  cancel-button-text="取消"
+                  title="确认删除？" @confirm="deleteItem(scope.row)">
+                <template #reference>
+                  <el-button size="small" type="danger">删除</el-button>
+                </template>
+              </el-popconfirm>
             </section>
           </template>
         </el-table-column>

@@ -1,6 +1,12 @@
 <template>
   <section class="flex flex-col h-full">
-    <section class="text-lg">用户列表</section>
+    <section class="flex justify-between items-center">
+      <section class="text-lg">用户列表</section>
+      <section>
+        <el-button type="success" @click="doExportTemplate">导出模版</el-button>
+        <el-button type="primary" @click="doImportUser">导入用户</el-button>
+      </section>
+    </section>
     <section class="flex justify-between mt-4">
       <section class="text-lg grid gap-4 grid-cols-5">
         <el-input v-model="params.name" placeholder="请输入姓名"/>
@@ -34,12 +40,20 @@
             {{ scope.row.status === 'OPEN' ? '启用' : '禁用' }}
           </template>
         </el-table-column>
-        <el-table-column fixed="right" prop="action" label="操作" width="140px" align="center">
+        <el-table-column fixed="right" prop="action" label="操作" width="220px" align="center">
           <template #default="scope">
             <section class="flex justify-end">
+              <el-button type="primary" size="small" @click="doExportUser(scope.row)">导出用户</el-button>
               <el-button size="small" type="warning" @click="update(scope.row)">编辑
               </el-button>
-              <el-button size="small" type="danger" @click="deleteItem(scope.row)">删除</el-button>
+              <el-popconfirm
+                  confirm-button-text="确定"
+                  cancel-button-text="取消"
+                  title="确认删除？" @confirm="deleteItem(scope.row)">
+                <template #reference>
+                  <el-button size="small" type="danger">删除</el-button>
+                </template>
+              </el-popconfirm>
             </section>
           </template>
         </el-table-column>
@@ -64,7 +78,15 @@
   </my-dialog>
 </template>
 <script lang="ts" setup>
-import {delUsers, queryUser, userSave, userUpdate} from '@/plugins/api/api-user-controller.js'
+import {
+  delUsers,
+  exportTemplete,
+  exportUser,
+  importUser,
+  queryUser,
+  userSave,
+  userUpdate
+} from '@/plugins/api/api-user-controller.js'
 import {onMounted, ref} from "vue";
 import MyDialog from '@/components/tool/dialog.vue';
 import type {UserParams} from "@/modules/list";
@@ -72,6 +94,7 @@ import {Form, getFormItem} from "@/modules/form";
 import type {Response} from "@/modules/response";
 import type {UserForm} from "@/modules/user";
 import MyFormItem from '@/components/tool/formItem.vue'
+import {blobToUrl, fileInput} from "@/plugins/common";
 
 const formName: Form = {
   account: getFormItem({name: '账号', tool: 'input'}),
@@ -123,6 +146,27 @@ const createNewForm = () => {
     name: "",
     remark: ""
   };
+}
+const doImportUser = async () => {
+  let file = await fileInput();
+  if (file instanceof Blob) {
+    let formData = new FormData();
+    formData.append('file', file);
+    let res = await importUser(formData);
+    if (res.data.code === 200) {
+      getDataList(true)
+    }
+  }
+}
+const doExportTemplate = async () => {
+  let res = await exportTemplete();
+  let url = await blobToUrl(res.data)
+  window.open(String(url));
+}
+const doExportUser = async (item: UserForm) => {
+  let res = await exportUser(item);
+  let url = await blobToUrl(res.data)
+  window.open(String(url));
 }
 const add = () => {
   dialog.value.addVisible = true;

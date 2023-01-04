@@ -29,7 +29,14 @@
             <section class="flex justify-end">
               <el-button size="small" type="warning" @click="update(scope.row)">编辑
               </el-button>
-              <el-button size="small" type="danger" @click="deleteItem(scope.row)">删除</el-button>
+              <el-popconfirm
+                  confirm-button-text="确定"
+                  cancel-button-text="取消"
+                  title="确认删除？" @confirm="deleteItem(scope.row)">
+                <template #reference>
+                  <el-button size="small" type="danger">删除</el-button>
+                </template>
+              </el-popconfirm>
             </section>
           </template>
         </el-table-column>
@@ -54,36 +61,27 @@
   </my-dialog>
 </template>
 <script lang="ts" setup>
-import {queryRole} from '@/plugins/api/api-role-controller.js'
+import {addRole, delRole, queryRole, updRole} from '@/plugins/api/api-role-controller.js'
 import {onMounted, ref} from "vue";
 import MyDialog from '@/components/tool/dialog.vue';
 import {Form, getFormItem} from "@/modules/form";
 import type {Response} from "@/modules/response";
-import type {UserForm} from "@/modules/user";
+import type {RoleForm} from "@/modules/user";
 import MyFormItem from '@/components/tool/formItem.vue'
 import type {RoleParams} from "@/modules/list";
 
 const formName: Form = {
-  account: getFormItem({name: '账号', tool: 'input'}),
-  address: getFormItem({name: '地址', tool: 'textarea'}),
-  age: getFormItem({name: '年龄', tool: 'input'}),
+  isValid: getFormItem({
+    name: '是否有效',
+    tool: 'select',
+    params: [{label: '有', value: 'YES'}, {label: '否', value: 'NO'}]
+  }),
+  remark: getFormItem({name: '备注', tool: 'textarea'}),
+  roleCode: getFormItem({name: '角色编码', tool: 'input'}),
+  roleName: getFormItem({name: '角色名称', tool: 'input'}),
   id: getFormItem({name: 'id', tool: 'input', noEdit: true}),
-  name: getFormItem({name: '姓名', tool: 'input'}),
-  password: getFormItem({name: '密码', tool: 'password'}),
-  phone: getFormItem({name: '电话', tool: 'input'}),
-  sex: getFormItem({
-    name: '性别',
-    tool: 'select',
-    params: [{label: '男', value: 'MAN'}, {label: '女', value: 'WOMAN'}]
-  }),
-  status: getFormItem({
-    name: '状态',
-    tool: 'select',
-    params: [{label: '启用', value: 'OPEN'}, {label: '禁用', value: 'CLOSE'}]
-  }),
-  remark: getFormItem({name: '备注', tool: 'textarea'})
 }
-const form = ref<UserForm>();
+const form = ref<RoleForm>();
 const params = ref<RoleParams>({
   roleName: '',
   pageSize: 15,
@@ -99,15 +97,10 @@ const dialog = ref({
 
 const createNewForm = () => {
   form.value = {
-    account: "",
-    phone: "",
-    password: "",
-    sex: "MAN",
-    status: "OPEN",
-    age: 0,
-    address: '',
-    name: "",
-    remark: ""
+    roleName: "",
+    roleCode: "",
+    remark: "",
+    isValid: ""
   };
 }
 const add = () => {
@@ -116,17 +109,17 @@ const add = () => {
   dialog.value.title = '新增'
   createNewForm();
 }
-const update = (item: UserForm) => {
+const update = (item: RoleForm) => {
   dialog.value.addVisible = true;
   dialog.value.action = 'update';
   dialog.value.title = '修改';
   form.value = item;
 }
-const deleteItem = async (item: UserForm) => {
-  // let res = await delUsers([item.id])
-  // if (res.data.code === 200) {
-  //   getDataList(true)
-  // }
+const deleteItem = async (item: RoleForm) => {
+  let res = await delRole([item.id])
+  if (res.data.code === 200) {
+    getDataList(true)
+  }
 }
 const cancel = () => {
   dialog.value.addVisible = false;
@@ -143,16 +136,16 @@ const save = () => {
   }
 }
 const doAdd = async () => {
-  // let res = await userSave(form.value);
-  // if (res.data.code === 200) {
-  //   cancel();
-  // }
+  let res = await addRole(form.value);
+  if (res.data.code === 200) {
+    cancel();
+  }
 }
 const doUpdate = async () => {
-  // let res = await userUpdate(form.value)
-  // if (res.data.code === 200) {
-  //   cancel();
-  // }
+  let res = await updRole(form.value)
+  if (res.data.code === 200) {
+    cancel();
+  }
 }
 /**
  * 获取list
@@ -176,14 +169,9 @@ const getDataList = (isFresh?: boolean) => {
  */
 const resetParams = () => {
   params.value = {
-    name: '',
-    account: '',
-    address: '',
-    phone: '',
-    remark: '',
+    roleName: '',
     pageSize: 15,
-    pageNum: 1,
-    parentId: 0
+    pageNum: 1
   }
 }
 /**

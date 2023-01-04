@@ -46,3 +46,11 @@ export interface UserForm {
     "sex": string,
     "status": string
 }
+
+export interface RoleForm {
+    "id"?: number,
+    "isValid": string,
+    "remark": string,
+    "roleCode": string,
+    "roleName": string
+}

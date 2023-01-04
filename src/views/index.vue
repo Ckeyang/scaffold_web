@@ -9,7 +9,9 @@ import {useRouter} from "vue-router";
 
 const router = useRouter()
 onMounted(() => {
-  checkToken()
+  setTimeout(() => {
+    checkToken()
+  }, 2000)
 })
 const checkToken = () => {
   let token = localStorage.getItem('token');
