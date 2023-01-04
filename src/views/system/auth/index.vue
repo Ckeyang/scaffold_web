@@ -12,7 +12,7 @@
       </section>
       <section class="toolbox">
         <el-button type="default" @click="add('GROUP',{})">新增菜单</el-button>
-        <el-button type="primary" @click="getDataList">查询</el-button>
+        <el-button type="primary" @click="getDataList()">查询</el-button>
       </section>
     </section>
     <section class="mt-8">
@@ -87,15 +87,7 @@
   <my-dialog :visible="dialog.visible" :title="dialog.title" @cancel="cancel" @save="save">
     <template #content>
       <el-form :model="form" label-position="top">
-        <el-form-item v-for="(k,v) in form" :key="v" :label="formName[v]?.name" :prop="`${v}`"
-                      v-show="!formName[v]?.noEdit">
-          <el-input v-if="formName[v]?.tool==='input'" v-model="form[v]"/>
-          <el-input v-if="formName[v]?.tool==='textarea'" v-model="form[v]" type="textarea"/>
-          <el-select v-if="formName[v]?.tool==='select'" v-model="form[v]">
-            <el-option v-for="(item,index) in formName[v]?.params" :key="index" :label="item.label"
-                       :value="item.value"></el-option>
-          </el-select>
-        </el-form-item>
+        <my-form-item v-model:form="form" :form-name="formName"></my-form-item>
       </el-form>
     </template>
   </my-dialog>
@@ -103,6 +95,7 @@
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
 import {Tree, typeName} from "@/modules/auth";
+import MyFormItem from '@/components/tool/formItem.vue';
 import {addAuth, delAuthByIds, getAuthTree, updateAuth} from '@/plugins/api/api-auth-controller.js'
 import MyDialog from '@/components/tool/dialog.vue';
 import {Form, getFormItem} from "@/modules/form";

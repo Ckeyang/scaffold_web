@@ -30,6 +30,14 @@ const router = createRouter({
                     path: '/dictionary',
                     name: 'dictionary',
                     component: () => import('@/views/system/dictionary/index.vue')
+                }, {
+                    path: '/user',
+                    name: 'user',
+                    component: () => import('@/views/system/user/index.vue')
+                }, {
+                    path: '/role',
+                    name: 'role',
+                    component: () => import('@/views/system/user/role.vue')
                 }
             ]
         },

@@ -22,3 +22,18 @@ export type Params = {
     pageSize: number,
     parentId: number
 }
+export type UserParams = {
+    account: string,
+    phone: string,
+    address: string,
+    remark: string,
+    name: string,
+    pageNum: number,
+    pageSize: number
+}
+
+export type RoleParams = {
+    roleName: string,
+    pageNum: number,
+    pageSize: number,
+}

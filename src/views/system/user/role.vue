@@ -1,9 +1,9 @@
 <template>
   <section class="flex flex-col h-full">
-    <section class="text-lg">数据字典</section>
+    <section class="text-lg">角色管理</section>
     <section class="flex justify-between mt-4">
-      <section class="text-lg">
-        <el-input v-model="params.name" placeholder="请输入名称"/>
+      <section class="text-lg grid gap-4 grid-cols-5">
+        <el-input v-model="params.roleName" placeholder="请输入角色名称"/>
       </section>
       <section class="toolbox">
         <el-button type="default" @click="add">新增</el-button>
@@ -12,26 +12,22 @@
     </section>
     <section class="py-4 flex-1 overflow-auto">
       <el-table :data="dataList" class="w-full">
-        <el-table-column prop="sort" label="排序" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="code" label="code" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="parentId" label="父id" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="id" label="id" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="identifying" label="identifying" width="120px" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="isEdit" label="是否编辑" show-overflow-tooltip>
+        <el-table-column prop="createId" label="创建人id" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="isValid" label="是否有效" show-overflow-tooltip>
           <template #default="scope">
-            {{ scope.row.isEdit === 'YES' ? '可以' : '不可以' }}
+            {{ scope.row.isValid === 'YES' ? '是' : '否' }}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="名称" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="createUser" label="创建人" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="updateTime" label="更新时间" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="updateUser" label="更新人" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="roleCode" label="角色编码" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="roleName" label="角色名称" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="updateId" label="修改人id" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="remark" label="备注" width="120px" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="updateTime" label="修改时间" show-overflow-tooltip></el-table-column>
         <el-table-column fixed="right" prop="action" label="操作" width="140px" align="center">
           <template #default="scope">
             <section class="flex justify-end">
-              <el-button v-show="scope.row.isEdit==='YES'" size="small" type="warning" @click="update(scope.row)">编辑
+              <el-button size="small" type="warning" @click="update(scope.row)">编辑
               </el-button>
               <el-button size="small" type="danger" @click="deleteItem(scope.row)">删除</el-button>
             </section>
@@ -58,35 +54,40 @@
   </my-dialog>
 </template>
 <script lang="ts" setup>
-import {addDict, deleteDict, editDict, getDictList} from '@/plugins/api/api-dict-controller.js'
+import {queryRole} from '@/plugins/api/api-role-controller.js'
 import {onMounted, ref} from "vue";
 import MyDialog from '@/components/tool/dialog.vue';
-import MyFormItem from '@/components/tool/formItem.vue';
-import type {Params} from "@/modules/list";
-import type {Dictionary} from "@/modules/dictionary";
 import {Form, getFormItem} from "@/modules/form";
 import type {Response} from "@/modules/response";
+import type {UserForm} from "@/modules/user";
+import MyFormItem from '@/components/tool/formItem.vue'
+import type {RoleParams} from "@/modules/list";
 
 const formName: Form = {
-  code: getFormItem({name: '字典编码', tool: 'input'}),
+  account: getFormItem({name: '账号', tool: 'input'}),
+  address: getFormItem({name: '地址', tool: 'textarea'}),
+  age: getFormItem({name: '年龄', tool: 'input'}),
   id: getFormItem({name: 'id', tool: 'input', noEdit: true}),
-  identifying: getFormItem({name: '字典标识', tool: 'input'}),
-  isEdit: getFormItem({
-    name: '是否允许编辑',
+  name: getFormItem({name: '姓名', tool: 'input'}),
+  password: getFormItem({name: '密码', tool: 'password'}),
+  phone: getFormItem({name: '电话', tool: 'input'}),
+  sex: getFormItem({
+    name: '性别',
     tool: 'select',
-    params: [{label: '可以', value: 'YES'}, {label: '不可以', value: 'NO'}]
+    params: [{label: '男', value: 'MAN'}, {label: '女', value: 'WOMAN'}]
   }),
-  name: getFormItem({name: '字典名称', tool: 'input'}),
-  parentId: getFormItem({name: '父id', tool: 'input', noEdit: true}),
-  remark: getFormItem({name: '字典备注', tool: 'textarea'}),
-  sort: getFormItem({name: '排序', tool: 'input'})
+  status: getFormItem({
+    name: '状态',
+    tool: 'select',
+    params: [{label: '启用', value: 'OPEN'}, {label: '禁用', value: 'CLOSE'}]
+  }),
+  remark: getFormItem({name: '备注', tool: 'textarea'})
 }
-const form = ref<Dictionary>();
-const params = ref<Params>({
-  name: '',
+const form = ref<UserForm>();
+const params = ref<RoleParams>({
+  roleName: '',
   pageSize: 15,
-  pageNum: 1,
-  parentId: 0
+  pageNum: 1
 })
 const total = ref(1);
 const dataList = ref([]);
@@ -98,9 +99,13 @@ const dialog = ref({
 
 const createNewForm = () => {
   form.value = {
-    code: "",
-    identifying: "",
-    isEdit: "YES",
+    account: "",
+    phone: "",
+    password: "",
+    sex: "MAN",
+    status: "OPEN",
+    age: 0,
+    address: '',
     name: "",
     remark: ""
   };
@@ -111,17 +116,17 @@ const add = () => {
   dialog.value.title = '新增'
   createNewForm();
 }
-const update = (item: Dictionary) => {
+const update = (item: UserForm) => {
   dialog.value.addVisible = true;
   dialog.value.action = 'update';
   dialog.value.title = '修改';
   form.value = item;
 }
-const deleteItem = async (item: Dictionary) => {
-  let res = await deleteDict([item.id])
-  if (res.data.code === 200) {
-    getDataList(true)
-  }
+const deleteItem = async (item: UserForm) => {
+  // let res = await delUsers([item.id])
+  // if (res.data.code === 200) {
+  //   getDataList(true)
+  // }
 }
 const cancel = () => {
   dialog.value.addVisible = false;
@@ -138,25 +143,27 @@ const save = () => {
   }
 }
 const doAdd = async () => {
-  let res = await addDict(form.value)
-  if (res.data.code === 200) {
-    cancel();
-  }
+  // let res = await userSave(form.value);
+  // if (res.data.code === 200) {
+  //   cancel();
+  // }
 }
 const doUpdate = async () => {
-  let res = await editDict(form.value)
-  if (res.data.code === 200) {
-    cancel();
-  }
+  // let res = await userUpdate(form.value)
+  // if (res.data.code === 200) {
+  //   cancel();
+  // }
 }
 /**
  * 获取list
  */
 const getDataList = (isFresh?: boolean) => {
+
+  console.log(isFresh, '============', params.value)
   if (isFresh) {
     resetParams();
   }
-  getDictList(params.value).then((res: Response) => {
+  queryRole(params.value).then((res: Response) => {
     if (res?.data?.code === 200) {
       console.log(res.data);
       dataList.value = res.data.data.list;
@@ -170,6 +177,10 @@ const getDataList = (isFresh?: boolean) => {
 const resetParams = () => {
   params.value = {
     name: '',
+    account: '',
+    address: '',
+    phone: '',
+    remark: '',
     pageSize: 15,
     pageNum: 1,
     parentId: 0

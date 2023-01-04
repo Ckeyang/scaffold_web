@@ -33,3 +33,16 @@ export type UserType = {
     updateId: number,
     updateTime: string
 }
+
+export interface UserForm {
+    "account": string,
+    "address": string,
+    "age": number,
+    "id"?: number,
+    "name": string,
+    "password": string,
+    "phone": string,
+    "remark": string,
+    "sex": string,
+    "status": string
+}
