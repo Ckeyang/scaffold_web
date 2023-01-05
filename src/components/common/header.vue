@@ -13,7 +13,7 @@
         </template>
         <template #default>
           <section class="py-2 cursor-pointer" @click="doLogout">
-            登出
+            {{ $t('login.logout') }}
           </section>
         </template>
       </el-popover>

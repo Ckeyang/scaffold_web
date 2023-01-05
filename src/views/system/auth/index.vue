@@ -17,7 +17,7 @@
     </section>
     <section class="mt-8">
       <el-tooltip
-          content="菜单"
+          :content="$t('common.menu')"
           placement="bottom-start"
       >
         <el-icon size="20">
@@ -25,7 +25,7 @@
         </el-icon>
       </el-tooltip>
       <el-tooltip
-          content="页面"
+          :content="$t('common.page')"
           placement="bottom-start"
       >
         <el-icon size="20"
@@ -35,7 +35,7 @@
       </el-tooltip>
 
       <el-tooltip
-          content="按钮"
+          :content="$t('common.button')"
           placement="bottom-start"
       >
         <el-icon size="20">

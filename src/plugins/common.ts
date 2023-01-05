@@ -26,10 +26,15 @@ export const fileInput = () => {
     let input = document.createElement("input");
     input.type = 'file';
     input.click();
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         input.addEventListener('change', (e) => {
             // @ts-ignore
-            resolve(e?.target?.files[0])
+            let file = e?.target?.files[0];
+            if (file instanceof Blob) {
+                resolve(file)
+            } else {
+                reject({msg: '文件错误'})
+            }
         })
     })
 

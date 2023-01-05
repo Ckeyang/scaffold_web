@@ -10,44 +10,44 @@
         <el-icon>
           <HomeFilled/>
         </el-icon>
-        <span>HOME</span>
+        <span>{{ $t('menu.home') }}</span>
       </el-menu-item>
       <el-menu-item index="/admin/home2">
         <el-icon>
           <Menu/>
         </el-icon>
-        <span>404包间</span>
+        <span>{{ $t('menu.404') }}</span>
       </el-menu-item>
       <el-sub-menu>
         <template #title>
           <el-icon>
             <Setting/>
           </el-icon>
-          系统设置
+          {{ $t('menu.systemSet') }}
         </template>
         <el-menu-item index="/admin/dictionary">
           <el-icon>
             <DataBoard/>
           </el-icon>
-          <span>数据字典</span>
+          <span>{{ $t('menu.dataDict') }}</span>
         </el-menu-item>
         <el-menu-item index="/admin/auth">
           <el-icon>
             <Finished/>
           </el-icon>
-          <span>资源权限</span>
+          <span>{{ $t('menu.auth') }}</span>
         </el-menu-item>
         <el-menu-item index="/admin/user">
           <el-icon>
             <User/>
           </el-icon>
-          <span>用户管理</span>
+          <span>{{ $t('menu.userManage') }}</span>
         </el-menu-item>
         <el-menu-item index="/admin/role">
           <el-icon>
             <Pointer/>
           </el-icon>
-          <span>角色管理</span>
+          <span>{{ $t('menu.roleManage') }}</span>
         </el-menu-item>
       </el-sub-menu>
     </el-menu>

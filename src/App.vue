@@ -1,12 +1,14 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <RouterView />
+  <el-config-provider :locale="commonState.locale">
+    <RouterView/>
+  </el-config-provider>
 </template>
+<script setup lang="ts">
+import {RouterView} from 'vue-router'
+import {useCommonState} from "@/stores/common";
 
+const commonState = useCommonState();
+</script>
 <style scoped>
 header {
   line-height: 1.5;

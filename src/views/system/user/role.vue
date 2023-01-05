@@ -6,8 +6,8 @@
         <el-input v-model="params.roleName" placeholder="请输入角色名称"/>
       </section>
       <section class="toolbox">
-        <el-button type="default" @click="add">新增</el-button>
-        <el-button type="primary" @click="getDataList()">查询</el-button>
+        <el-button type="default" @click="add">{{ $t('common.add') }}</el-button>
+        <el-button type="primary" @click="getDataList()">{{ $t('common.search') }}</el-button>
       </section>
     </section>
     <section class="py-4 flex-1 overflow-auto">
@@ -27,14 +27,14 @@
         <el-table-column fixed="right" prop="action" label="操作" width="140px" align="center">
           <template #default="scope">
             <section class="flex justify-end">
-              <el-button size="small" type="warning" @click="update(scope.row)">编辑
+              <el-button size="small" type="warning" @click="update(scope.row)">{{ $t('common.update') }}
               </el-button>
               <el-popconfirm
                   confirm-button-text="确定"
                   cancel-button-text="取消"
                   title="确认删除？" @confirm="deleteItem(scope.row)">
                 <template #reference>
-                  <el-button size="small" type="danger">删除</el-button>
+                  <el-button size="small" type="danger">{{ $t('common.delete') }}</el-button>
                 </template>
               </el-popconfirm>
             </section>

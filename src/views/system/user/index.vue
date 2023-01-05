@@ -16,8 +16,8 @@
         <el-input v-model="params.remark" placeholder="请输入备注"/>
       </section>
       <section class="xl:mt-0 md:mt-4">
-        <el-button type="default" @click="add">新增</el-button>
-        <el-button type="primary" @click="getDataList()">查询</el-button>
+        <el-button type="default" @click="add">{{ $t('common.add') }}</el-button>
+        <el-button type="primary" @click="getDataList()">{{ $t('common.search') }}</el-button>
       </section>
     </section>
     <section class="py-4 flex-1 overflow-auto">
@@ -45,14 +45,14 @@
             <section class="flex justify-end">
               <el-button type="default" size="small" @click="addRole(scope.row)">修改角色</el-button>
               <el-button type="primary" size="small" @click="doExportUser(scope.row)">导出用户</el-button>
-              <el-button size="small" type="warning" @click="update(scope.row)">编辑
+              <el-button size="small" type="warning" @click="update(scope.row)">{{ $t('common.update') }}
               </el-button>
               <el-popconfirm
                   confirm-button-text="确定"
                   cancel-button-text="取消"
                   title="确认删除？" @confirm="deleteItem(scope.row)">
                 <template #reference>
-                  <el-button size="small" type="danger">删除</el-button>
+                  <el-button size="small" type="danger">{{ $t('common.delete') }}</el-button>
                 </template>
               </el-popconfirm>
             </section>
