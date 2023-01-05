@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://gitlab.chengdu-zhifei.com:9999/zf-fw/zf-cloud-web"
+    "url": "https://github.com/Ckeyang/scaffold_web"
   },
   "scripts": {
     "dev": "vite",
