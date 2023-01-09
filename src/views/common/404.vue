@@ -5,8 +5,8 @@
   </section>
 </template>
 <script lang="ts" setup>
-import {useRouter} from "vue-router";
-import {onMounted, ref} from "vue";
+import { useRouter } from "vue-router";
+import { onMounted, ref } from "vue";
 
 const router = useRouter();
 const count = ref(3);
@@ -18,9 +18,9 @@ const counting = () => {
     }
     count.value--;
     counting();
-  }, 1000)
-}
+  }, 1000);
+};
 onMounted(() => {
   counting();
-})
+});
 </script>

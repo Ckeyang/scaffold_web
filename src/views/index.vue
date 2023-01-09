@@ -4,21 +4,21 @@
   </section>
 </template>
 <script lang="ts" setup>
-import {onMounted} from "vue";
-import {useRouter} from "vue-router";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
 
-const router = useRouter()
+const router = useRouter();
 onMounted(() => {
   setTimeout(() => {
-    checkToken()
-  }, 2000)
-})
+    checkToken();
+  }, 2000);
+});
 const checkToken = () => {
-  let token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   if (!token) {
-    router.push('/login')
+    router.push("/login");
   } else {
-    router.push('/admin')
+    router.push("/admin");
   }
-}
+};
 </script>

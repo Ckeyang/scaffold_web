@@ -1,4 +1,1 @@
-export interface ToolDialog {
-
-}
-
+export interface ToolDialog {}

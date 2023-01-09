@@ -1,4 +1,5 @@
+const baseUrl: string = import.meta.env.VITE_APP_BASEAPI;
 export default {
-    timeout: 50000,
-    baseURL: 'http://124.70.150.250:9001/'
-}
+  timeout: 50000,
+  baseURL: baseUrl,
+};

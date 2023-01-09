@@ -10,5 +10,6 @@
   </section>
 </template>
 <script lang="ts" setup>
-import MyHeader from '@/components/common/header.vue'
-import SideMenu from '@/components/common/sideMenu.vue'</script>
+import MyHeader from "@/components/common/header.vue";
+import SideMenu from "@/components/common/sideMenu.vue";
+</script>

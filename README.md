@@ -1,4 +1,4 @@
-# 智菲前端框架项目
+# 前端框架项目
 
       ui框架 element-plus
       css框架 tailwind
@@ -9,3 +9,10 @@
 
 swagger.js 是用来导入接口的工具库
 https://github.com/Ckeyang/test-swagger
+
+## 组件
+
+    工作流
+    图表
+    拖拽插件
+    自定义表单
