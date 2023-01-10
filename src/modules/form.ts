@@ -8,6 +8,10 @@ export interface FormItem {
   tool: string;
   noEdit?: boolean;
   params?: FormOptions;
+  size?: number;
+  expired?: string;
+  length?: number;
+  required?: boolean;
 }
 
 export interface FormOption {

@@ -1,13 +1,17 @@
 <template>
-  <section>
+  <section class="h-full">
     <draggable
       item-key="id"
+      class="h-full"
       :clone="cloneDog"
-      :list="props.data"
+      :list="tools"
       :group="group"
     >
       <template #item="{ element }">
-        <section class="bg-gray-300 p-4 text-center my-4">
+        <section
+          class="bg-gray-300 p-4 text-center my-4"
+          @dblclick="addData(element)"
+        >
           {{ element.name }}
         </section>
       </template>
@@ -18,12 +22,10 @@
 import Draggable from "vuedraggable";
 import { ref } from "vue";
 import type { FormItem } from "@/modules/form";
+import useForm from "@/hooks/form";
 
-interface formMain {
-  data: FormItem[];
-}
-
-const props = defineProps<formMain>();
+const { getTools, addData } = useForm();
+const tools = getTools();
 const group = ref({ name: "form", pull: "clone", put: false });
 const cloneDog = (item: FormItem) => {
   const { name, tool } = item;
